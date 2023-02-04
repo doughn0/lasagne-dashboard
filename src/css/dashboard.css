@@ -1,0 +1,25 @@
+.container {
+    width: 800px;
+    height: 480px;
+    background-image: url("/public/bg.png");
+    background-size: cover;
+}
+
+.tile {
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, .6);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    position: absolute;
+    transition-property: top, left, height, width, background-color, z-index, opacity, border-radius, font-size;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.tile.active {
+    border-radius: 40px;
+    z-index: 1000;
+}
+.tile.hidden {
+    opacity: 0;
+}
