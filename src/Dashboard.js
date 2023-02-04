@@ -32,7 +32,6 @@ function Dashboard() {
                 </Tile>
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={1} />
                 ({(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? <FPSStats/> : null })
-                <FPSStats/>
             </div>
 }
 
