@@ -1,5 +1,7 @@
+
+
 .clock{
-    font-size: 2.2em;
+    font-size: 130px;
     text-align: center;
     font-family: monospace;
     height: 100%;
@@ -7,4 +9,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.clock.maximized {
+    font-size: 160px;
+}
+
+.hoursminutes {
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: font-size, width, opacity;
+}
+
+.seconds {
+    text-align: left;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: font-size, width, opacity;
+    width: 0%;
+    opacity: 0;
+}
+
+.hack{
+    opacity: 0;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: font-size, width, opacity;
+    font-size: 0;
+}
+
+.hack.maximized{
+    font-size: inherit;
+}
+
+.seconds.maximized{
+    opacity: 0.7;
 }

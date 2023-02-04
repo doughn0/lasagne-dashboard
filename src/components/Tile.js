@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Tile({x, y, blockSize=1, active, setActive, id, children}) {
 
     let gap = 20;
@@ -34,7 +36,7 @@ function Tile({x, y, blockSize=1, active, setActive, id, children}) {
                                 margin: '0.5em',
                                 fontSize: '0.1em'
                 }}>
-                    {children}
+                    {children ? React.cloneElement(children, { maximized: act }) : null}
                 </div>
             </div>;
 }

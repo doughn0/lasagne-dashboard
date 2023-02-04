@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import "../css/clock.css";
 
-function Clock(){
+function Clock({maximized}){
 
-  function renderDate(){
-    return (new Date()).toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit'});
+  console.log(maximized);
+
+  function renderTime(){
+    return (new Date()).toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'});
   }
-  const [date, setDate] = useState(renderDate());
+  const [time, setTime] = useState(renderTime());
 
   function refreshClock() {
-    setDate(renderDate());
+    setTime(renderTime());
   }
   useEffect(() => {
-    const timerId = setInterval(refreshClock, 60000);
+    const timerId = setInterval(refreshClock, 1000);
     return function cleanup() {
       clearInterval(timerId);
     };
   }, []);
   return (
-    <div className='clock' >
-      {date}
+    <div className={(maximized ? 'maximized ' : '') + 'clock'} >
+      <span className={(maximized ? 'maximized ' : '') + 'hoursminutes'} >{time.substring(0,5)}</span>
+      <span className={(maximized ? 'maximized ' : '') + 'seconds'} >{time.substring(5)}</span>
+      <span className={(maximized ? 'maximized ' : '') + 'hack'} >{time.substring(5)}</span>
     </div>
   );
 }
