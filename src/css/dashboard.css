@@ -7,7 +7,8 @@
 
 .tile {
     border-radius: 20px;
-    background-color: rgba(0, 0, 0, .6);
+    background-image: url("/public/bgblur.png");
+    background-attachment: fixed;
     z-index: 1;
     position: absolute;
     transition-property: top, left, height, width, background-color, z-index, opacity, border-radius, font-size;

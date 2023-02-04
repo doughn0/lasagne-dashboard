@@ -15,7 +15,7 @@ function Clock(){
     }, []);
     return (
       <div className='clock' >
-        {date.toLocaleTimeString('en-US', {hour12: false,})}
+        {date.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit'})}
       </div>
     );
 }
