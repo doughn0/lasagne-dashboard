@@ -2,6 +2,7 @@ import { useState } from "react";
 import Clock from "./components/Clock";
 import Tile from "./components/Tile"
 import "./css/dashboard.css";
+import FPSStats from "react-fps-stats";
 
 function Dashboard() {
 
@@ -11,11 +12,13 @@ function Dashboard() {
     return  <div className="container">
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={0} y={0} />
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={1} y={0} />
-                <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={0} />
+                <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={0} >
+                </Tile>
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={0} y={1} blockSize={ 2 } >
                     <Clock/>
                 </Tile>
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={1} />
+                <FPSStats/>
             </div>
 }
 
