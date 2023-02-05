@@ -7,12 +7,27 @@
     height: 100%;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .clock.maximized {
     font-size: 150px;
+}
+
+.date{
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: font-size, width, opacity, bottom;
+    position: relative;
+    bottom: 1em;
+    font-size: 0.25em;
+}
+
+.date.maximized{
+    bottom: 0em;
+    font-size: 0.4em;
 }
 
 .hoursminutes {

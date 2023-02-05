@@ -6,24 +6,29 @@ function Clock({maximized}){
 		return (new Date()).toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'});
 	}
 	const [time, setTime] = useState(renderTime());
+	const [date, setDate] = useState(new Date());
 
 	function refreshClock() {
 		setTime(renderTime());
+        setDate(new Date());
 	}
 
 	useEffect(() => {
-		const timerId = setInterval(refreshClock, 1000);
+		const timerId = setInterval(refreshClock, 100);
 		return function cleanup() {
 			clearInterval(timerId);
 		};
 	}, []);
-	return (
-		<div className={(maximized ? 'maximized ' : '') + 'clock'} >
-			<span className={(maximized ? 'maximized ' : '') + 'hoursminutes'} >{time.substring(0,5)}</span>
-			<span className={(maximized ? 'maximized ' : '') + 'seconds'} >{time.substring(5)}</span>
-			<span className={(maximized ? 'maximized ' : '') + 'hack'} >{time.substring(5)}</span>
-		</div>
-	);
+	return <div className={(maximized ? 'maximized ' : '') + 'clock'} >
+            <div className='hcontainer'>
+                <span className={(maximized ? 'maximized ' : '') + 'hoursminutes'} >{time.substring(0,5)}</span>
+                <span className={(maximized ? 'maximized ' : '') + 'seconds'} >{time.substring(5)}</span>
+                <span className={(maximized ? 'maximized ' : '') + 'hack'} >{time.substring(5)}</span>
+            </div>
+            <div className={(maximized ? 'maximized ' : '') + 'date'} >
+                {date.toLocaleDateString('hu-HU')}
+            </div>
+        </div>;
 }
 
 export default Clock;
