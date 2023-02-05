@@ -29,11 +29,11 @@ function Tile({x, y, blockSize=1, active, setActive, id, children}) {
                 }
             >
                 <div style={{ 
-                                maxHeight: 'calc(100% - 1em)',
-                                height: 'calc(100% - 1em)',
-                                maxWidth: 'calc(100% - 1em)',
-                                width: 'calc(100% - 1em)',
-                                margin: '0.5em',
+                                maxHeight: 'calc(100% - 40px)',
+                                height: 'calc(100% - 40px)',
+                                maxWidth: 'calc(100% - 40px)',
+                                width: 'calc(100% - 40px)',
+                                margin: '20px',
                                 fontSize: '0.1em'
                 }}>
                     {children ? React.cloneElement(children, { maximized: act }) : null}

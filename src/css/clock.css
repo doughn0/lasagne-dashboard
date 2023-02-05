@@ -3,7 +3,7 @@
 .clock{
     font-size: 130px;
     text-align: center;
-    font-family: monospace;
+    font-family: "NotoMono";
     height: 100%;
     color: white;
     display: flex;

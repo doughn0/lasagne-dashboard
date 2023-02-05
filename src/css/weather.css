@@ -1,0 +1,27 @@
+.w-container {
+    font-size: 100px;
+    position: absolute;
+    display: flex;
+    height: 430px;
+    width: 660px;
+    top: 5px;
+    left: 5px;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: top, left;
+}
+
+.w-container.maximized {
+    top: 15px;
+    left: 55px;
+}
+
+.icon {
+    display: inline-block;
+}
+
+.w-temp{
+    font-size: 1em;
+    display: inline-block;
+    font-family: "NotoMono";
+}
