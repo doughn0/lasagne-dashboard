@@ -77,3 +77,25 @@
 .flex-between{
     justify-content: space-between;
 }
+
+.loading-bar{
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition-property: opacity, width;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation: dismiss1 20s linear both;
+}
+.loading-bar.active{
+    opacity: 1;
+    animation: dismiss 20s linear both;
+}
+
+@keyframes dismiss {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}

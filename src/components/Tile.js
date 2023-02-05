@@ -38,6 +38,10 @@ function Tile({x, y, blockSize=1, active, setActive, id, children}) {
                 }}>
                     {children ? React.cloneElement(children, { maximized: act }) : null}
                 </div>
+                <div className={(act ? "active " : "") + 'loading-bar'}
+                     style={{ position: 'absolute', bottom: '0px', height: '5px' }}>
+
+                </div>
             </div>;
 }
 
