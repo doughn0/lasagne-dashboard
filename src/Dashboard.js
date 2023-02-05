@@ -21,7 +21,7 @@ function Dashboard() {
         setTimeoutId(setTimeout(resetActive, 20000));
     }
 
-    return  <div className="container">
+    return  <div className="container" onKeyDownCapture={(e) => console.log(e)}>
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={0} y={0} >
                     <Weather/>
                 </Tile>
@@ -31,7 +31,8 @@ function Dashboard() {
                 <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={0} y={1} blockSize={ 2 } >
                     <Clock/>
                 </Tile>
-                <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={1} />
+                <Tile id={"l_tile-"+sel++} active={active} setActive={setActive} x={2} y={1} >
+                </Tile>
                 {(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? <FPSStats/> : null }
             </div>
 }

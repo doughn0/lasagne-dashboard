@@ -15,8 +15,6 @@ function Weather({maximized}){
         setData(await getData());
     }
 
-    console.log(data);
-
     useEffect(() => {
         setTimeout(updateData, 0);
         const timerId = setInterval(updateData, 600000);
