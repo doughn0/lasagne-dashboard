@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { WiDaySunny } from "weather-icons-react";
+import { WiAlien, WiCloudy, WiDayCloudy, WiDayFog, WiDayShowers, WiDaySunny, WiDaySunnyOvercast, WiFog } from "weather-icons-react";
 import "../css/weather.css";
 
 function Weather({maximized}){
@@ -54,8 +54,26 @@ function Temp({degrees, ...props}){
 
 function WCodeIcon(props){
     let code = props.code;
-    if(code === 0){
+    if ([0].includes(code)){
         return <WiDaySunny {...props} />
+    }
+    else if ([1,2].includes(code)){
+        return <WiDayCloudy {...props} />
+    }
+    else if ([3].includes(code)){
+        return <WiDaySunnyOvercast {...props} />
+    }
+    else if ([45].includes(code)){
+        return <WiDayFog {...props} />
+    }
+    else if ([48].includes(code)){
+        return <WiFog {...props} />
+    }
+    else if ([51, 53, 55].includes(code)){
+        return <WiDayShowers {...props} />
+    }
+    else {
+        return <WiAlien {...props} />
     }
 }
 
