@@ -3,7 +3,7 @@ import "../css/clock.css";
 
 function Clock({maximized}){
 	function renderTime(){
-		return (new Date()).toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'});
+		return (new Date()).toLocaleTimeString('hu-HU', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
 	}
 	const [time, setTime] = useState(renderTime());
 	const [date, setDate] = useState(new Date());
@@ -20,7 +20,7 @@ function Clock({maximized}){
 		};
 	}, []);
 	return <div className={(maximized ? 'maximized ' : '') + 'clock'} >
-            <div className='hcontainer'>
+            <div className='hcontainer flex-center'>
                 <span className={(maximized ? 'maximized ' : '') + 'hoursminutes'} >{time.substring(0,5)}</span>
                 <span className={(maximized ? 'maximized ' : '') + 'seconds'} >{time.substring(5)}</span>
                 <span className={(maximized ? 'maximized ' : '') + 'hack'} >{time.substring(5)}</span>
