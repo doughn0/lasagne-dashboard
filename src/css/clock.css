@@ -1,19 +1,27 @@
-
-
 .clock{
+    position: absolute;
+    width: 730px;
+    height: 420px;
+    top: -110px;
+    left: -145px;
     font-size: 130px;
     text-align: center;
     font-family: "NotoMono";
-    height: 100%;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    -box-shadow: 0px 0px 0px 1px rgb(0, 0, 255);
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-property: top, left;
 }
 
 .clock.maximized {
     font-size: 150px;
+    top: 20px;
+    left: 20px;
 }
 
 .date{

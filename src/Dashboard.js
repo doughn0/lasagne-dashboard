@@ -18,7 +18,9 @@ function Dashboard() {
     function setActive(s){
         clearTimeout(timeoutId);
         setActiveInt(s);
-        setTimeoutId(setTimeout(resetActive, 20000));
+        if(!(!process.env.NODE_ENV || process.env.NODE_ENV === 'development')){
+            setTimeoutId(setTimeout(resetActive, 20000));
+        }
     }
 
     return  <div className="container" onKeyDownCapture={(e) => console.log(e)}>
