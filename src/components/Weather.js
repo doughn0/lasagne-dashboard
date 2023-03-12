@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { WiAlien, WiCloudy, WiDayCloudy, WiDayFog, WiDayShowers, WiDaySunny, WiDaySunnyOvercast, WiFog } from "weather-icons-react";
+import { WiAlien, WiCloudy, WiDayCloudy, WiDayFog, WiDayShowers, WiDaySunny, WiDaySunnyOvercast, WiFog, WiRainMix } from "weather-icons-react";
 import "../css/weather.css";
 
 function Weather({maximized}){
@@ -26,17 +26,72 @@ function Weather({maximized}){
         data.latitude ? (
             <div className={(maximized ? 'maximized ' : '') + "w-container hcontainer flex-align-start"}>
                 <div className="">
-                    <div className="hcontainer flex-between" style={{width: '200px'}}>
-                        <WCodeIcon className="icon" size={90} code={data.current_weather.weathercode}/>
-                        <Temp degrees={data.current_weather.temperature} style={{ fontSize: '50px', marginRight: '15px' }} />
-                    </div>
+                    <DailyWeather   extended={false}
+                                    date={data.daily.time[0]}
+                                    temperature={data.current_weather.temperature}
+                                    weathercode={data.current_weather.weathercode}
+                                    style={{ marginRight:'15px' }}/>
                     <BarGraph timestamp={data.current_weather.time} data={data.hourly}/>
+                </div>
+                <div className="vcontainer flex-between" style={{width: '450px', height: '390px', marginLeft:'20px', marginTop:'20px'}}>
+                    <div className="hcontainer flex-between">
+                        <DailyWeather   date={data.daily.time[1]}
+                                        temperature={data.daily.temperature_2m_max[1]}
+                                        temperature_min={data.daily.temperature_2m_min[1]}
+                                        weathercode={data.daily.weathercode[1]} />
+                        <DailyWeather   date={data.daily.time[2]}
+                                        temperature={data.daily.temperature_2m_max[2]}
+                                        temperature_min={data.daily.temperature_2m_min[2]}
+                                        weathercode={data.daily.weathercode[2]} />
+                    </div>
+                    <div className="hcontainer">
+                        <DailyWeather   date={data.daily.time[3]}
+                                        temperature={data.daily.temperature_2m_max[3]}
+                                        temperature_min={data.daily.temperature_2m_min[3]}
+                                        weathercode={data.daily.weathercode[3]} />
+                        <DailyWeather   date={data.daily.time[4]}
+                                        temperature={data.daily.temperature_2m_max[4]}
+                                        temperature_min={data.daily.temperature_2m_min[4]}
+                                        weathercode={data.daily.weathercode[4]} />
+                    </div>
+                    <div className="hcontainer">
+                        <DailyWeather   date={data.daily.time[5]}
+                                        temperature={data.daily.temperature_2m_max[5]}
+                                        temperature_min={data.daily.temperature_2m_min[5]}
+                                        weathercode={data.daily.weathercode[5]} />
+                        <DailyWeather   date={data.daily.time[6]}
+                                        temperature={data.daily.temperature_2m_max[6]}
+                                        temperature_min={data.daily.temperature_2m_min[6]}
+                                        weathercode={data.daily.weathercode[6]} />
+                    </div>
                 </div>
             </div>)
         :
         "Loading"
     }
     </>
+}
+
+function DailyWeather({extended=true, date, temperature, temperature_min, weathercode, ...props}){
+    let Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    Days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+    return  <div className="vcontainer" {...props} style={{width: '185px', height: '90px'}}>
+                {extended ? <div className="hcontainer">
+                    <WCodeIcon className="icon" size={50} code={weathercode}/>
+                    <span>{Days[new Date(date).getUTCDay()]}</span>
+                </div> : <></>}
+                <div className="hcontainer flex-between">
+                    {!extended ? <WCodeIcon className="icon" size={90} code={weathercode}/> : null}
+                    {extended ? 
+                        <>
+                            <Temp degrees={temperature_min} style={{ fontSize: '50px'}} />
+                            <span>-</span>
+                        </> : null
+                    }
+                    <Temp degrees={temperature} style={{ fontSize: '50px'}} />
+                </div>
+            </div>
 }
 
 function BarGraph({timestamp, data}){
@@ -95,8 +150,8 @@ function BarGraph({timestamp, data}){
         <div className="vcontainer" style={{width: '155px', height: '105px'}}>
             <div className="hcontainer flex-align-end flex-between" style={{width: '130px', height: '85px', paddingLeft:'15px', paddingRight:'10px'}}> 
                 {cData.heights.map((height, i) => (
-                    <div className="w-bar-container hcontainer flex-align-end"style={{maxHeight: height + 'px', transitionDelay: (i/20)+'s'}}>
-                        <div className="w-bar" style={{animationDelay: (i/20)+'s'}}/>
+                    <div className="w-bar-container hcontainer flex-align-end"style={{maxHeight: height + 'px', transitionDelay: (i/25)+'s'}}>
+                        <div className="w-bar" style={{animationDelay: (i/25)+'s'}}/>
                     </div>
                 ))}
             </div>
@@ -144,6 +199,9 @@ function WCodeIcon(props){
     }
     else if ([51, 53, 55].includes(code)){
         return <WiDayShowers {...props} />
+    }
+    else if ([61, 63].includes(code)){
+        return <WiRainMix {...props} />
     }
     else {
         return <WiAlien {...props} />

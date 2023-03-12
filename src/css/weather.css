@@ -1,5 +1,6 @@
 .w-container {
-    font-size: 100px;
+    font-family: "NotoMono";
+    font-size: 27px;
     position: absolute;
     display: flex;
     height: 430px;
