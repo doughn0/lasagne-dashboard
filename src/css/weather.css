@@ -16,6 +16,23 @@
     left: 55px;
 }
 
+.w-hr {
+    background-color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    width: 150px;
+    left: 35px;
+    height: 1px;
+}
+
+.w-bar {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 3px;
+}
+
+.w-clock {
+    font-family: "NotoMono";
+}
+
 .icon {
     display: inline-block;
 }
