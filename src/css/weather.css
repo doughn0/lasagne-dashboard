@@ -24,11 +24,6 @@
     height: 1px;
 }
 
-.w-bar {
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 3px;
-}
-
 .w-clock {
     font-family: "NotoMono";
 }
@@ -41,4 +36,27 @@
     font-size: 1em;
     display: inline-block;
     font-family: "NotoMono";
+}
+
+.w-bar-container {
+    max-height: 0px;
+    height: 100%;
+    width: 2px;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.w-bar {
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 0%;
+    width: 100%;
+    animation: w-bar-appear 0.5s ease-in-out both;
+}
+
+@keyframes w-bar-appear {
+    0% {
+        height: 0%;
+    }
+    100% {
+        height: 100%;
+    }
 }

@@ -94,8 +94,10 @@ function BarGraph({timestamp, data}){
         </div>
         <div className="vcontainer" style={{width: '155px', height: '105px'}}>
             <div className="hcontainer flex-align-end flex-between" style={{width: '130px', height: '85px', paddingLeft:'15px', paddingRight:'10px'}}> 
-                {cData.heights.map(height => (
-                    <div className="w-bar" style={{width: '2px', height: height + 'px'}}/>
+                {cData.heights.map((height, i) => (
+                    <div className="w-bar-container hcontainer flex-align-end"style={{maxHeight: height + 'px', transitionDelay: (i/20)+'s'}}>
+                        <div className="w-bar" style={{animationDelay: (i/20)+'s'}}/>
+                    </div>
                 ))}
             </div>
             <div className="hcontainer flex-align-end flex-between" style={{width: '170px', height: '20px', marginLeft:'-5px'}}>
