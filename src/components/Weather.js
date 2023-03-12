@@ -33,32 +33,38 @@ function Weather({maximized}){
                                     style={{ marginRight:'15px' }}/>
                     <BarGraph timestamp={data.current_weather.time} data={data.hourly}/>
                 </div>
-                <div className="vcontainer flex-between" style={{width: '450px', height: '390px', marginLeft:'20px', marginTop:'20px'}}>
+                <div className="w-vr" style={{ height:'100%', marginLeft:'3px' }}/>
+                <div className="vcontainer flex-between" style={{width: '430px', height: '390px', marginLeft:'20px', marginTop:'20px'}}>
                     <div className="hcontainer flex-between">
                         <DailyWeather   date={data.daily.time[1]}
                                         temperature={data.daily.temperature_2m_max[1]}
                                         temperature_min={data.daily.temperature_2m_min[1]}
                                         weathercode={data.daily.weathercode[1]} />
+                        <div className="w-vr" style={{ height:'100%', marginLeft:'1px' }}/>
                         <DailyWeather   date={data.daily.time[2]}
                                         temperature={data.daily.temperature_2m_max[2]}
                                         temperature_min={data.daily.temperature_2m_min[2]}
                                         weathercode={data.daily.weathercode[2]} />
                     </div>
+                    <div className="w-hr" style={{ width:'430px', marginTop:'1px' }}/>
                     <div className="hcontainer">
                         <DailyWeather   date={data.daily.time[3]}
                                         temperature={data.daily.temperature_2m_max[3]}
                                         temperature_min={data.daily.temperature_2m_min[3]}
                                         weathercode={data.daily.weathercode[3]} />
+                        <div className="w-vr" style={{ height:'100%', marginLeft:'1px' }}/>
                         <DailyWeather   date={data.daily.time[4]}
                                         temperature={data.daily.temperature_2m_max[4]}
                                         temperature_min={data.daily.temperature_2m_min[4]}
                                         weathercode={data.daily.weathercode[4]} />
                     </div>
+                    <div className="w-hr" style={{ width:'430px', marginTop:'1px' }}/>
                     <div className="hcontainer">
                         <DailyWeather   date={data.daily.time[5]}
                                         temperature={data.daily.temperature_2m_max[5]}
                                         temperature_min={data.daily.temperature_2m_min[5]}
                                         weathercode={data.daily.weathercode[5]} />
+                        <div className="w-vr" style={{ height:'100%', marginLeft:'1px' }}/>
                         <DailyWeather   date={data.daily.time[6]}
                                         temperature={data.daily.temperature_2m_max[6]}
                                         temperature_min={data.daily.temperature_2m_min[6]}
@@ -78,18 +84,18 @@ function DailyWeather({extended=true, date, temperature, temperature_min, weathe
 
     return  <div className="vcontainer" {...props} style={{width: '185px', height: '90px'}}>
                 {extended ? <div className="hcontainer">
-                    <WCodeIcon className="icon" size={50} code={weathercode}/>
                     <span>{Days[new Date(date).getUTCDay()]}</span>
+                    <WCodeIcon className="icon" size={50} code={weathercode}/>
                 </div> : <></>}
                 <div className="hcontainer flex-between">
                     {!extended ? <WCodeIcon className="icon" size={90} code={weathercode}/> : null}
                     {extended ? 
                         <>
-                            <Temp degrees={temperature_min} style={{ fontSize: '50px'}} />
+                            <Temp degrees={temperature_min} style={{ fontSize: '38px'}} />
                             <span>-</span>
                         </> : null
                     }
-                    <Temp degrees={temperature} style={{ fontSize: '50px'}} />
+                    <Temp degrees={temperature} style={{ fontSize: extended ? '38px':'50px'}} />
                 </div>
             </div>
 }
@@ -143,7 +149,7 @@ function BarGraph({timestamp, data}){
             {cData.vlabels.map(vlabel => (
                 <div className="vcontainer flex-align-end" style={{width: '30px', height: '23px'}}>
                     <Temp degrees={ vlabel } style={{ fontSize: '14px'}} />
-                    <div className="w-hr"></div>
+                    <div className="w-tb-hr" />
                 </div>
             ))}
         </div>
