@@ -25,15 +25,86 @@ function Weather({maximized}){
     return  <>{
         data.latitude ? (
             <div className={(maximized ? 'maximized ' : '') + "w-container hcontainer flex-align-start"}>
-                <div className="hcontainer flex-between" style={{width: '185px'}}>
-                    <WCodeIcon className="icon" size={90} code={data.current_weather.weathercode}/>
-                    <Temp degrees={data.current_weather.temperature} style={{ fontSize: '50px' }} />
+                <div className="">
+                    <div className="hcontainer flex-between" style={{width: '200px'}}>
+                        <WCodeIcon className="icon" size={90} code={data.current_weather.weathercode}/>
+                        <Temp degrees={data.current_weather.temperature} style={{ fontSize: '50px', marginRight: '15px' }} />
+                    </div>
+                    <BarGraph timestamp={data.current_weather.time} data={data.hourly}/>
                 </div>
             </div>)
         :
         "Loading"
     }
     </>
+}
+
+function BarGraph({timestamp, data}){
+
+    let hours = 19;
+    let times = 4;
+    let temps_disp = 4;
+    let height = 69;
+    let bottom_offset = 5;
+
+    let dataSubset = []
+    
+    for (let i = 0; i < data.time.length; i++) {
+        if(data.time[i].localeCompare(timestamp) > 0){
+            if(dataSubset.push([data.time[i].substring(11), data.temperature_2m[i]]) === hours){
+                break;
+            }
+        }
+    }
+
+    let cData = {
+        vlabels: [],
+        hlabels: [],
+        heights: []
+    }
+
+    let temps = dataSubset.map(a=>(a[1]));
+
+    let min_temp = Math.min(...temps);
+    let max_temp = Math.max(...temps);
+    let rng_temp = max_temp - min_temp;
+    let stp_temp = Math.round(rng_temp / (temps_disp-1)) + 1;
+    let bot_temp = Math.floor(min_temp - 1)
+
+    for(let i = 0; i < temps_disp; i++) {
+        cData.vlabels.push(bot_temp + (temps_disp-i-1)*stp_temp);
+    }
+
+    for (let i = 0; i < dataSubset.length; i++) {
+        const e = dataSubset[i];
+        if(i % ((hours-1) / (times-1)) === 0){
+            cData.hlabels.push(e[0]);
+        }
+        cData.heights.push(((e[1]-bot_temp) / (stp_temp*3)) * height + bottom_offset);
+    }
+
+    return <div className="hcontainer flex-align-start flex-start" style={{fontSize:'12px', position: 'relative', width: '200px', height: '90px'}}>
+        <div className="">
+            {cData.vlabels.map(vlabel => (
+                <div className="vcontainer flex-align-end" style={{width: '30px', height: '23px'}}>
+                    <Temp degrees={ vlabel } style={{ fontSize: '14px'}} />
+                    <div className="w-hr"></div>
+                </div>
+            ))}
+        </div>
+        <div className="vcontainer" style={{width: '155px', height: '105px'}}>
+            <div className="hcontainer flex-align-end flex-between" style={{width: '130px', height: '85px', paddingLeft:'15px', paddingRight:'10px'}}> 
+                {cData.heights.map(height => (
+                    <div className="w-bar" style={{width: '2px', height: height + 'px'}}/>
+                ))}
+            </div>
+            <div className="hcontainer flex-align-end flex-between" style={{width: '170px', height: '20px', marginLeft:'-5px'}}>
+                {cData.hlabels.map(hlabel => (
+                    <div className="w-clock vcontainer flex-align-center" style={{width: '40px', height: '19px'}}>{hlabel}</div>
+                ))}
+            </div>
+        </div>
+    </div>
 }
 
 function Temp({degrees, ...props}){
