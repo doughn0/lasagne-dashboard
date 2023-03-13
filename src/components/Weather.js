@@ -14,7 +14,7 @@ function Weather({maximized}){
     }
 
     async function updateData(){
-        setVidCachebust(crypto.randomUUID());
+        setVidCachebust(Math.random());
         setData(await getData());
     }
 
