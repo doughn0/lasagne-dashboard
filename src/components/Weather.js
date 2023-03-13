@@ -5,6 +5,8 @@ import "../css/weather.css";
 function Weather({maximized}){
     const url = "https://api.open-meteo.com/v1/forecast?latitude=47.48&longitude=19.08&hourly=temperature_2m,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto"
     let [data, setData] = useState({});
+    let [vid, setVid] = useState(null);
+    let [vidCachebust, setVidCachebust] = useState("");
 
     async function getData(){
         let resp = await (await fetch(url)).json()
@@ -12,8 +14,21 @@ function Weather({maximized}){
     }
 
     async function updateData(){
+        setVidCachebust(crypto.randomUUID());
         setData(await getData());
     }
+
+    useEffect(() => {
+        if(maximized && vid){
+            vid.load();
+            vid.play();
+        } else {
+            if(vid){
+                vid.pause();
+            }
+        }
+
+    }, [maximized])
 
     useEffect(() => {
         setTimeout(updateData, 0);
@@ -21,20 +36,26 @@ function Weather({maximized}){
         return function cleanup() {
           clearInterval(timerId);
         };
-    }, []);
+    }, [null]);
+
     return  <>{
         data.latitude ? (
             <div className={(maximized ? 'maximized ' : '') + "w-container hcontainer flex-align-start"}>
-                <div className="">
-                    <DailyWeather   extended={false}
-                                    date={data.daily.time[0]}
-                                    temperature={data.current_weather.temperature}
-                                    weathercode={data.current_weather.weathercode}
-                                    style={{ marginRight:'15px' }}/>
-                    <BarGraph timestamp={data.current_weather.time} data={data.hourly}/>
+                <div className="" style={{width: '200px', height: '390px'}}>
+                    <div className="hcontainer flex-between">
+                        <WCodeIcon className="icon" size={90} code={data.current_weather.weathercode}/>
+                        <Temp degrees={data.current_weather.temperature} style={{ fontSize: '50px', marginRight: '10px'}} />
+                    </div>
+                    <BarGraph maximized={maximized} timestamp={data.current_weather.time} data={data.hourly}/>
+                    <div className="w-video-container">
+                        <video  height={400}
+                                className="w-video" muted loop onCanPlay={(e) => setVid(e.target)}>
+                            <source src={"https://www.idokep.hu/radar/radar.mp4?cache=" + vidCachebust} />
+                        </video>
+                    </div>
                 </div>
                 <div className="w-vr" style={{ height:'100%', marginLeft:'3px' }}/>
-                <div className="vcontainer flex-between" style={{width: '430px', height: '390px', marginLeft:'20px', marginTop:'20px'}}>
+                <div className="vcontainer flex-between" style={{width: '400px', height: '390px', marginLeft:'20px', marginTop:'20px'}}>
                     <div className="hcontainer flex-between">
                         <DailyWeather   date={data.daily.time[1]}
                                         temperature={data.daily.temperature_2m_max[1]}
@@ -82,7 +103,7 @@ function DailyWeather({extended=true, date, temperature, temperature_min, weathe
     let Days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     Days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-    return  <div className="vcontainer" {...props} style={{width: '185px', height: '90px'}}>
+    return  <div className="vcontainer" {...props} style={{width: '160px', height: '90px'}}>
                 {extended ? <div className="hcontainer">
                     <span>{Days[new Date(date).getUTCDay()]}</span>
                     <WCodeIcon className="icon" size={50} code={weathercode}/>
@@ -100,7 +121,7 @@ function DailyWeather({extended=true, date, temperature, temperature_min, weathe
             </div>
 }
 
-function BarGraph({timestamp, data}){
+function BarGraph({timestamp, data, maximized}){
 
     let hours = 19;
     let times = 4;
@@ -144,26 +165,29 @@ function BarGraph({timestamp, data}){
         cData.heights.push(((e[1]-bot_temp) / (stp_temp*3)) * height + bottom_offset);
     }
 
-    return <div className="hcontainer flex-align-start flex-start" style={{fontSize:'12px', position: 'relative', width: '200px', height: '90px'}}>
+    return <div className={(maximized ? 'maximized ' : '') + "hcontainer flex-align-start flex-start w-table-container"}
+                style={{position: 'relative', width: '20em', height: '9em'}}>
         <div className="">
             {cData.vlabels.map(vlabel => (
-                <div className="vcontainer flex-align-end" style={{width: '30px', height: '23px'}}>
-                    <Temp degrees={ vlabel } style={{ fontSize: '14px'}} />
+                <div className="vcontainer flex-align-end" style={{width: '3em', height: '2.3em'}}>
+                    <Temp degrees={ vlabel } style={{ fontSize: '1.4em'}} />
                     <div className="w-tb-hr" />
                 </div>
             ))}
         </div>
-        <div className="vcontainer" style={{width: '155px', height: '105px'}}>
-            <div className="hcontainer flex-align-end flex-between" style={{width: '130px', height: '85px', paddingLeft:'15px', paddingRight:'10px'}}> 
+        <div className="vcontainer" style={{width: '15.5em', height: '10.5em'}}>
+            <div className="hcontainer flex-align-end flex-between" style={{width: '13em', height: '8.5em', paddingLeft:'1.5em', paddingRight:'10px'}}> 
                 {cData.heights.map((height, i) => (
-                    <div className="w-bar-container hcontainer flex-align-end"style={{maxHeight: height + 'px', transitionDelay: (i/25)+'s'}}>
+                    <div className="w-bar-container hcontainer flex-align-end"style={{maxHeight: height/10 + 'em', TtransitionDelay: (i/25)+'s'}}>
                         <div className="w-bar" style={{animationDelay: (i/25)+'s'}}/>
                     </div>
                 ))}
             </div>
-            <div className="hcontainer flex-align-end flex-between" style={{width: '170px', height: '20px', marginLeft:'-5px'}}>
+            <div className="hcontainer flex-align-end flex-between" style={{width: '17em', height: '2em', marginLeft:'-0.5em'}}>
                 {cData.hlabels.map(hlabel => (
-                    <div className="w-clock vcontainer flex-align-center" style={{width: '40px', height: '19px'}}>{hlabel}</div>
+                    <div className="w-clock vcontainer flex-align-center" style={{width: '4em', height: '1.9em'}}>
+                        <span style={{ fontSize:'1.2em' }}>{hlabel}</span>
+                    </div>
                 ))}
             </div>
         </div>
