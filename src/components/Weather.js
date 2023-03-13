@@ -6,7 +6,8 @@ function Weather({maximized}){
     const url = "https://api.open-meteo.com/v1/forecast?latitude=47.48&longitude=19.08&hourly=temperature_2m,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto"
     let [data, setData] = useState({});
     let [vid, setVid] = useState(null);
-    let [vidCachebust, setVidCachebust] = useState("");
+    let [vid2, setVid2] = useState(null);
+    let [vidCachebust, setVidCachebust] = useState(Math.random());
 
     async function getData(){
         let resp = await (await fetch(url)).json()
@@ -18,12 +19,22 @@ function Weather({maximized}){
         setData(await getData());
     }
 
-    useEffect(() => {
-        if(maximized && vid){
+    function startVids(){
+        if(maximized){
             vid.play();
+            vid2.play();
+        }
+    }
+
+    useEffect(() => {
+        if(maximized && vid && vid2){
+            setTimeout(startVids, 1000);
         } else {
             if(vid){
                 vid.pause();
+            }
+            if(vid2){
+                vid2.pause();
             }
         }
 
@@ -46,7 +57,13 @@ function Weather({maximized}){
                         <Temp degrees={data.current_weather.temperature} style={{ fontSize: '50px', marginRight: '10px'}} />
                     </div>
                     <BarGraph maximized={maximized} timestamp={data.current_weather.time} data={data.hourly}/>
-                    <div className="w-video-container">
+                    <div className={(maximized ? 'maximized ' : '') + "w-video-container"}>
+                        <div className="w-video2-container" style={{ zIndex: 3 }}>
+                            <video  height={400}
+                                    className="w-video2" muted loop onCanPlay={(e) => setVid2(e.target)}>
+                                <source src={"https://www.idokep.hu/radar/radar.mp4?cache=" + vidCachebust} />
+                            </video>
+                        </div>
                         <video  height={400}
                                 className="w-video" muted loop onCanPlay={(e) => setVid(e.target)}>
                             <source src={"https://www.idokep.hu/radar/radar.mp4?cache=" + vidCachebust} />
