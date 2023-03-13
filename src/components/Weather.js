@@ -20,7 +20,6 @@ function Weather({maximized}){
 
     useEffect(() => {
         if(maximized && vid){
-            vid.load();
             vid.play();
         } else {
             if(vid){
