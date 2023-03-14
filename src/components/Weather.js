@@ -7,6 +7,7 @@ function Weather({maximized}){
     let [data, setData] = useState({});
     let [vid, setVid] = useState(null);
     let [vid2, setVid2] = useState(null);
+    let [timeoutId, setTimeoutId] = useState("");
     let [vidCachebust, setVidCachebust] = useState(Math.random());
 
     async function getData(){
@@ -21,14 +22,18 @@ function Weather({maximized}){
 
     function startVids(){
         if(maximized){
+            console.log("play")
             vid.play();
             vid2.play();
         }
     }
 
     useEffect(() => {
+        clearTimeout(timeoutId);
         if(maximized && vid && vid2){
-            setTimeout(startVids, 1000);
+            vid.currentTime = 0;
+            vid2.currentTime = 0;
+            setTimeoutId(setTimeout(startVids, 700));
         } else {
             if(vid){
                 vid.pause();
